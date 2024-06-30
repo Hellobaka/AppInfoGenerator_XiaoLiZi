@@ -1,0 +1,307 @@
+﻿<Window
+    x:Class="XiaoLiZi_AppInfoGenerator.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:XiaoLiZi_AppInfoGenerator"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="AppInfo 生成器_小栗子"
+    Width="1100"
+    Height="650"
+    Icon="/icon.ico"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.Column="0"
+            Margin="5,0"
+            AllowDrop="True"
+            DragEnter="Grid_DragEnter"
+            Drop="Grid_Drop">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <TextBlock>打开插件或拖动插件</TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="OpenFilePath" />
+                    <Button
+                        x:Name="OpenFileButton"
+                        Grid.Column="1"
+                        Margin="5,0"
+                        Padding="10,0"
+                        Click="OpenFileButton_Click">
+                        打开
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+            <ListView
+                x:Name="ListView_Plugins"
+                Grid.Row="1"
+                Margin="0,5"
+                ItemsSource="{Binding Plugins}"
+                SelectionChanged="ListView_SelectionChanged"
+                SelectionMode="Single">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="文件名">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FileName}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="类型">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding PluginType}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="路径">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FilePath}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Grid Grid.Row="2" Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Name="ClearButton"
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    Click="ClearButton_Click">
+                    清空
+                </Button>
+            </Grid>
+        </Grid>
+
+        <Grid
+            x:Name="Editor"
+            Grid.Column="1"
+            Margin="5,0"
+            IsEnabled="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock>基础信息</TextBlock>
+                <StackPanel Grid.Row="1" Margin="10,5,0,0">
+                    <Grid Margin="0,0,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock>名称:</TextBlock>
+                        <TextBox
+                            x:Name="PluginName"
+                            Grid.Column="1"
+                            Margin="5,0" />
+                        <Button
+                            x:Name="PluginNameResetButton"
+                            Grid.Column="2"
+                            Margin="5,0"
+                            Padding="10,0">
+                            重置
+                        </Button>
+                    </Grid>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock>版本:</TextBlock>
+                        <TextBox
+                            x:Name="PluginVersion"
+                            Grid.Column="1"
+                            Margin="5,0" />
+                        <Button
+                            x:Name="PluginVersionResetButton"
+                            Grid.Column="2"
+                            Margin="5,0"
+                            Padding="10,0">
+                            重置
+                        </Button>
+                    </Grid>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock>作者:</TextBlock>
+                        <TextBox
+                            x:Name="PluginAuthor"
+                            Grid.Column="1"
+                            Margin="5,0" />
+                        <Button
+                            x:Name="PluginAuthorResetButton"
+                            Grid.Column="2"
+                            Margin="5,0"
+                            Padding="10,0">
+                            重置
+                        </Button>
+                    </Grid>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock>描述:</TextBlock>
+                        <TextBox
+                            x:Name="PluginDescription"
+                            Grid.Column="1"
+                            Margin="5,0" />
+                        <Button
+                            x:Name="PluginDescriptionResetButton"
+                            Grid.Column="2"
+                            Margin="5,0"
+                            Padding="10,0">
+                            重置
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock>事件</TextBlock>
+                <ListView
+                    x:Name="ListView_Events"
+                    Grid.Row="1"
+                    ItemsSource="{Binding EventInfos}">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridView.Columns>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Checked, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="40" Header="ID">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Type}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="名称">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <Grid Grid.Row="2" Margin="0,10,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock>权限</TextBlock>
+                <ListView
+                    x:Name="ListView_Auths"
+                    Grid.Row="1"
+                    ItemsSource="{Binding AuthInfos}">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridView.Columns>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Checked, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="ID">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ID}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="名称">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <CheckBox x:Name="HasSettingForm" Grid.Row="3">是否有设置窗口</CheckBox>
+            <Grid Grid.Row="4" Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Name="ReadFromPluginButton"
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    Click="ReadFromPluginButton_Click">
+                    从插件读取
+                </Button>
+                <Button
+                    x:Name="ResetAllButton"
+                    Grid.Column="1"
+                    Margin="0,0,5,0"
+                    Click="ResetAllButton_Click">
+                    重置
+                </Button>
+                <Button
+                    x:Name="SaveButton"
+                    Grid.Column="2"
+                    Margin="5,0"
+                    Click="SaveButton_Click">
+                    保存
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
